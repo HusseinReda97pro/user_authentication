@@ -1,0 +1,6 @@
+package com.hussein.soicalauth
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
