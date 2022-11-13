@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:soical_user_authentication/soical_user_authentication.dart';
-import 'package:user_authentication/models/auth_user.dart';
-import 'package:user_authentication/models/user_response.dart';
-import 'package:user_authentication/repository/auth_repository.dart';
+import 'package:user_authentication/src/models/auth_user.dart';
+import 'package:user_authentication/src/models/user_response.dart';
+import 'package:user_authentication/src/repository/auth_repository.dart';
 
 class AuthProvider extends SoicalUserProvider {
   AuthUser? currentUser;

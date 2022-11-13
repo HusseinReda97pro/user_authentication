@@ -397,10 +397,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "78e8e629f2de1a9343be54bc863468080f3c19de"
+      resolved-ref: "81e6e3982902c5379cb2da40b5c6b32fac8b12a0"
       url: "https://github.com/HusseinReda97pro/soical_user_authentication"
     source: git
-    version: "0.0.2"
+    version: "0.0.3"
   source_span:
     dependency: transitive
     description:
@@ -455,7 +455,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "30b21b94d33a96cab1609462bf381d115c2ae4ab"
+      resolved-ref: "824b4c3d1a3226aec656999859038886661cdd0f"
       url: "https://github.com/HusseinReda97pro/user_authentication"
     source: git
     version: "0.0.1"

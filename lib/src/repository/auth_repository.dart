@@ -1,8 +1,8 @@
 import 'package:soical_user_authentication/soical_user_authentication.dart';
-import 'package:user_authentication/models/auth_user.dart';
-import 'package:user_authentication/models/user_response.dart';
-import 'package:user_authentication/network_services/networking_services.dart';
-import 'package:user_authentication/network_services/status_codes.dart';
+import 'package:user_authentication/src/models/auth_user.dart';
+import 'package:user_authentication/src/models/user_response.dart';
+import 'package:user_authentication/src/network_services/networking_services.dart';
+import 'package:user_authentication/src/network_services/status_codes.dart';
 
 import '../models/custom_response.dart';
 

@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:user_authentication/provider/auth_provider.dart';
+import 'package:user_authentication/src/provider/auth_provider.dart';
 
-class SigninGoogleButton extends StatefulWidget {
+class SigninFacebookButton extends StatefulWidget {
   final String? text;
   final Function? onPressed;
-  const SigninGoogleButton({this.text, this.onPressed, Key? key})
+  const SigninFacebookButton({this.text, this.onPressed, Key? key})
       : super(key: key);
 
   @override
-  State<SigninGoogleButton> createState() => _SigninGoogleButtonState();
+  State<SigninFacebookButton> createState() => _SigninFacebookButtonState();
 }
 
-class _SigninGoogleButtonState extends State<SigninGoogleButton> {
+class _SigninFacebookButtonState extends State<SigninFacebookButton> {
   @override
   Widget build(BuildContext context) {
     return SignInButton(
-      Buttons.Google,
+      Buttons.FacebookNew,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6.0),
       ),
       text: widget.text,
       onPressed: widget.onPressed ??
           () async {
-            AuthProvider.of(context).signInWithGoogle();
+            AuthProvider.of(context).signInWithFacebook();
           },
     );
   }
