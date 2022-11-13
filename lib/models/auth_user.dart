@@ -10,7 +10,7 @@ class AuthUser {
   UserProvider provider;
   String? soicalId;
   String? imageURL;
-  String? jwt;
+  String? jsonWebToken;
 
   AuthUser({
     required this.id,
@@ -19,14 +19,14 @@ class AuthUser {
     required this.provider,
     this.soicalId,
     this.imageURL,
-    this.jwt,
+    this.jsonWebToken,
   });
 
   factory AuthUser.fromJson(data) => fromMap(json.decode(data));
 
   @override
   String toString() {
-    return 'id:$id, username: $name, email: $email, soicalId :$soicalId, jwt: $jwt, ImageUrl: $imageURL';
+    return 'id:$id, username: $name, email: $email, soicalId :$soicalId, json_web_token: $jsonWebToken, ImageUrl: $imageURL';
   }
 
   Map<String, dynamic> get toMap {
@@ -35,7 +35,7 @@ class AuthUser {
       "name": name,
       "email": email,
       "soical_id": soicalId,
-      "jwt": jwt,
+      "json_web_token": jsonWebToken,
       "image_url": imageURL,
       "provider": provider
     };
@@ -50,8 +50,8 @@ class AuthUser {
     // if (id != null) {
     pref.setString('id', id);
     // }
-    if (jwt != null) {
-      pref.setString('jwt', jwt!);
+    if (jsonWebToken != null) {
+      pref.setString('jwt', jsonWebToken!);
     }
     if (soicalId != null) {
       pref.setString('soical_id', soicalId!);
@@ -71,7 +71,7 @@ class AuthUser {
     String? email = pref.getString('email');
     String? imageURL = pref.getString('image_url');
     String? soicalId = pref.getString('soical_id');
-    String? jwt = pref.getString('jwt');
+    String? jsonWebToken = pref.getString('json_web_token');
     String? provider = pref.getString('provider');
     try {
       if (id != null && email != null && name != null && provider != null) {
@@ -80,7 +80,7 @@ class AuthUser {
           name: name,
           email: email,
           imageURL: imageURL,
-          jwt: jwt,
+          jsonWebToken: jsonWebToken,
           soicalId: soicalId,
           provider: provider.toUserProvider(),
         );
@@ -96,7 +96,7 @@ class AuthUser {
     pref.remove('email');
     pref.remove('image_url');
     pref.remove('soical_id');
-    pref.remove('jwt');
+    pref.remove('json_web_token');
     pref.remove('provider');
   }
 
@@ -106,7 +106,7 @@ class AuthUser {
       name: data['name'],
       email: data['email'],
       soicalId: data['soical_id'],
-      jwt: data['jwt'],
+      jsonWebToken: data['json_web_token'],
       imageURL: data['image_url'],
       provider: UserProvider.emailPassword,
     );

@@ -4,25 +4,27 @@ import 'package:user_authentication/provider/auth_provider.dart';
 
 class SignInEmailButton extends StatefulWidget {
   final Function? onPressed;
-  final TextEditingController? emailController;
-  final TextEditingController? passwordController;
+  final String? email;
+  final String? password;
   final String? text;
+  final String? Function(String)? validateEmail;
+  final String? Function(String)? validatePassword;
   final bool mini;
   final double elevation;
   final String? signinURL;
   const SignInEmailButton(
       {this.signinURL,
-      this.emailController,
-      this.passwordController,
+      this.email,
+      this.password,
       this.onPressed,
       this.text,
+      this.validateEmail,
+      this.validatePassword,
       this.mini = false,
       this.elevation = 2.0,
       Key? key})
       : assert(onPressed != null ||
-            (emailController != null &&
-                passwordController != null &&
-                signinURL != null)),
+            (email != null && password != null && signinURL != null)),
         super(key: key);
 
   @override
@@ -44,10 +46,30 @@ class _SignInEmailButtonState extends State<SignInEmailButton> {
       // text: "Sign up with Google",
       onPressed: widget.onPressed ??
           () async {
+            AuthProvider.of(context).setError(null);
+            if (widget.email!.isEmpty || widget.password!.isEmpty) {
+              AuthProvider.of(context).setError('Missing Email or Password');
+              return;
+            }
+            if (widget.validateEmail != null) {
+              String? error = widget.validateEmail!(widget.email!);
+              if (error != null) {
+                AuthProvider.of(context).setError(error);
+                return;
+              }
+            }
+            if (widget.validatePassword != null) {
+              String? error = widget.validatePassword!(widget.password!);
+              if (error != null) {
+                AuthProvider.of(context).setError(error);
+                return;
+              }
+            }
             await AuthProvider.of(context).signInWithEmailAndPassword(
-                signinURL: widget.signinURL!,
-                email: widget.emailController!.text,
-                password: widget.passwordController!.text);
+              signinURL: widget.signinURL!,
+              email: widget.email!,
+              password: widget.password!,
+            );
           },
     );
   }
