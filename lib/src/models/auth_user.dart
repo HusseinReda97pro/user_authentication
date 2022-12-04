@@ -11,6 +11,9 @@ class AuthUser {
   String? soicalId;
   String? imageURL;
   String? jsonWebToken;
+  DateTime? emailVerifiedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   AuthUser({
     required this.id,
@@ -20,13 +23,16 @@ class AuthUser {
     this.soicalId,
     this.imageURL,
     this.jsonWebToken,
+    this.emailVerifiedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory AuthUser.fromJson(data) => fromMap(json.decode(data));
 
   @override
   String toString() {
-    return 'id:$id, username: $name, email: $email, soicalId :$soicalId, json_web_token: $jsonWebToken, ImageUrl: $imageURL';
+    return 'id:$id, username: $name, email: $email, soicalId :$soicalId, token: $jsonWebToken, ImageUrl: $imageURL';
   }
 
   Map<String, dynamic> get toMap {
@@ -35,9 +41,12 @@ class AuthUser {
       "name": name,
       "email": email,
       "soical_id": soicalId,
-      "json_web_token": jsonWebToken,
+      "token": jsonWebToken,
       "image_url": imageURL,
-      "provider": provider
+      "provider": provider,
+      "email_verified_at": emailVerifiedAt,
+      "created_at": createdAt,
+      "updated_at": updatedAt,
     };
   }
 
@@ -71,7 +80,7 @@ class AuthUser {
     String? email = pref.getString('email');
     String? imageURL = pref.getString('image_url');
     String? soicalId = pref.getString('soical_id');
-    String? jsonWebToken = pref.getString('json_web_token');
+    String? jsonWebToken = pref.getString('token');
     String? provider = pref.getString('provider');
     try {
       if (id != null && email != null && name != null && provider != null) {
@@ -96,20 +105,22 @@ class AuthUser {
     pref.remove('email');
     pref.remove('image_url');
     pref.remove('soical_id');
-    pref.remove('json_web_token');
+    pref.remove('token');
     pref.remove('provider');
   }
 
   static AuthUser fromMap(Map<String, dynamic> data) {
     return AuthUser(
-      id: data['id'],
-      name: data['name'],
-      email: data['email'],
-      soicalId: data['soical_id'],
-      jsonWebToken: data['json_web_token'],
-      imageURL: data['image_url'],
-      provider: UserProvider.emailPassword,
-    );
+        id: data['id'],
+        name: data['name'],
+        email: data['email'],
+        soicalId: data['soical_id'],
+        jsonWebToken: data['token'],
+        imageURL: data['image_url'],
+        provider: UserProvider.emailPassword,
+        emailVerifiedAt: data['email_verified_at'],
+        createdAt: data['created_at'],
+        updatedAt: data['updated_at']);
   }
 
   // factory User.fromFacebook(data) => FacebookUser.fromMap(data);

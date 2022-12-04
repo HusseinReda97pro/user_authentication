@@ -1,5 +1,6 @@
 import 'package:soical_user_authentication/soical_user_authentication.dart';
 import 'package:user_authentication/src/models/auth_user.dart';
+import 'package:user_authentication/src/models/otp_message.dart';
 import 'package:user_authentication/src/models/user_response.dart';
 import 'package:user_authentication/src/network_services/networking_services.dart';
 import 'package:user_authentication/src/network_services/status_codes.dart';
@@ -20,6 +21,44 @@ class AuthRepository extends SoicalUserRepository {
       try {
         userResponse.user = AuthUser.fromMap(customResponse.data);
       } catch (_) {}
+    } else {
+      userResponse.error = customResponse.errorMessage;
+    }
+    return userResponse;
+  }
+
+  Future<OTPMessage> signInUsingEmailAndOTP(
+      {required String signinURL, required String email}) async {
+    CustomResponse customResponse = await NetworkServices.instance
+        .post(url: signinURL, body: {"email": email});
+    if ((customResponse.statusCode == StatusCode.success ||
+            customResponse.statusCode == StatusCode.created) &&
+        customResponse.data != null) {
+      return OTPMessage.fromMap(customResponse.data);
+    } else {
+      return OTPMessage(
+        message: 'حدث خطأ غير معروف',
+      );
+    }
+  }
+
+  Future<UserResponse> verifyOTP({
+    required String verifyURL,
+    required String otp,
+    required String tempKey,
+    Map? extraBodyData,
+  }) async {
+    UserResponse userResponse = UserResponse();
+
+    Map body = {"otp": otp, 'temp_key': tempKey};
+    if (extraBodyData != null) body.addAll(extraBodyData);
+    CustomResponse customResponse =
+        await NetworkServices.instance.post(url: verifyURL, body: body);
+    if ((customResponse.statusCode == StatusCode.success ||
+            customResponse.statusCode == StatusCode.created) &&
+        customResponse.data != null) {
+      customResponse.data['member']['token'] = customResponse.data['token'];
+      userResponse.user = AuthUser.fromMap(customResponse.data['member']);
     } else {
       userResponse.error = customResponse.errorMessage;
     }

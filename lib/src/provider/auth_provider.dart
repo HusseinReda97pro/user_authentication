@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:soical_user_authentication/soical_user_authentication.dart';
 import 'package:user_authentication/src/models/auth_user.dart';
+import 'package:user_authentication/src/models/otp_message.dart';
 import 'package:user_authentication/src/models/user_response.dart';
 import 'package:user_authentication/src/repository/auth_repository.dart';
 
 class AuthProvider extends SoicalUserProvider {
   AuthUser? currentUser;
   AuthRepository authRepository;
+  OTPMessage? otpMessage;
   // bool isLoading = false;
 
   setError(String? e) {
@@ -80,9 +82,41 @@ class AuthProvider extends SoicalUserProvider {
     return false;
   }
 
-  static AuthProvider of(BuildContext context, {bool listen = false}) {
-    if (listen) return context.watch<AuthProvider>();
-    return context.read<AuthProvider>();
+  Future<void> signInWithEmailAndOTP(
+      {required String signinURL, required String email}) async {
+    isLoading = true;
+    error = null;
+    otpMessage = null;
+    notifyListeners();
+    otpMessage = await authRepository.signInUsingEmailAndOTP(
+        signinURL: signinURL, email: email);
+    if (otpMessage != null && otpMessage!.errors != null) {
+      isLoading = false;
+      error = otpMessage!.message;
+      notifyListeners();
+      return;
+    }
+  }
+
+  Future<void> signInVerifyOTP(
+      {required String verifyURL, required String otp}) async {
+    isLoading = true;
+    error = null;
+    otpMessage = null;
+    notifyListeners();
+    if (otpMessage != null && otpMessage!.tempKey != null) return;
+    UserResponse userResponse = await authRepository.verifyOTP(
+        verifyURL: verifyURL, tempKey: otpMessage!.tempKey!, otp: otp);
+    if (userResponse.error != null) {
+      isLoading = false;
+      error = userResponse.error;
+      notifyListeners();
+      return;
+    } else {
+      currentUser = userResponse.user;
+      isLoading = false;
+      notifyListeners();
+    }
   }
 
   autoLogin() async {
@@ -118,5 +152,10 @@ class AuthProvider extends SoicalUserProvider {
 
   isUserLoggedin() {
     return currentUser != null;
+  }
+
+  static AuthProvider of(BuildContext context, {bool listen = false}) {
+    if (listen) return context.watch<AuthProvider>();
+    return context.read<AuthProvider>();
   }
 }

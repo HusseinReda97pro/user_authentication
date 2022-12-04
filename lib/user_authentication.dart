@@ -12,3 +12,4 @@ export 'src/views/widgets/signin_facebook_button.dart';
 export 'src/views/widgets/signin_google_button.dart';
 export 'src/views/widgets/logout_button.dart';
 export 'src/views/widgets/signin_email_button.dart';
+export 'src/views/widgets/signin_email_otp_button.dart';
