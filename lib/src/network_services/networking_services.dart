@@ -43,6 +43,8 @@ class NetworkServices {
 
   void _setJsonHeader() {
     headers.putIfAbsent('Accept', () => 'application/json charset=utf-8');
+    headers.putIfAbsent(
+        ' "Content-Type"', () => "application/x-www-form-urlencoded");
   }
 
   Future<CustomResponse<dynamic>> get(
