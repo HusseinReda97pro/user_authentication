@@ -1,4 +1,4 @@
-import 'package:user_authentication/user_authentication.dart';
+import 'package:auth/models/auth_user.dart';
 
 class UserResponse {
   AuthUser? user;

@@ -1,11 +1,11 @@
+import 'package:auth/models/auth_user.dart';
+import 'package:auth/models/otp_message.dart';
+import 'package:auth/models/user_response.dart';
+import 'package:auth/network_services/networking_services.dart';
+import 'package:auth/network_services/status_codes.dart';
 import 'package:soical_user_authentication/soical_user_authentication.dart';
-import 'package:user_authentication/src/helper/validation.dart';
-import 'package:user_authentication/src/models/auth_user.dart';
-import 'package:user_authentication/src/models/otp_message.dart';
-import 'package:user_authentication/src/models/user_response.dart';
-import 'package:user_authentication/src/network_services/networking_services.dart';
-import 'package:user_authentication/src/network_services/status_codes.dart';
-import 'package:logger/logger.dart';
+
+import '../helper/validation.dart';
 import '../models/custom_response.dart';
 
 class AuthRepository extends SoicalUserRepository {
@@ -47,7 +47,7 @@ class AuthRepository extends SoicalUserRepository {
         customResponse.data != null) {
       return OTPMessage.fromMap(customResponse.data);
     } else {
-      Logger().i("customResponse.data", customResponse.data);
+      // Logger().i("customResponse.data", customResponse.data);
 
       return OTPMessage(message: 'حدث خطأ غير معروف', errors: {});
     }
@@ -68,8 +68,15 @@ class AuthRepository extends SoicalUserRepository {
     if ((customResponse.statusCode == StatusCode.success ||
             customResponse.statusCode == StatusCode.created) &&
         customResponse.data != null) {
-      customResponse.data['member']['token'] = customResponse.data['token'];
-      userResponse.user = AuthUser.fromMap(customResponse.data['member']);
+      try{
+        customResponse.data['member']['token'] = customResponse.data['token'];
+        userResponse.user = AuthUser.fromMap(customResponse.data['member']);
+      }catch(e,s){
+        print(e);
+        print(s);
+        userResponse.error = 'حدث خطأ غير معروف';
+      }
+
     } else {
       userResponse.error = customResponse.errorMessage;
     }

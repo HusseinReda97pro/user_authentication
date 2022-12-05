@@ -1,10 +1,10 @@
+import 'package:auth/models/auth_user.dart';
+import 'package:auth/models/otp_message.dart';
+import 'package:auth/models/user_response.dart';
+import 'package:auth/repository/auth_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:soical_user_authentication/soical_user_authentication.dart';
-import 'package:user_authentication/src/models/auth_user.dart';
-import 'package:user_authentication/src/models/otp_message.dart';
-import 'package:user_authentication/src/models/user_response.dart';
-import 'package:user_authentication/src/repository/auth_repository.dart';
 
 class AuthProvider extends SoicalUserProvider {
   AuthUser? currentUser;
@@ -96,15 +96,21 @@ class AuthProvider extends SoicalUserProvider {
       notifyListeners();
       return;
     }
+    isLoading = false;
+    notifyListeners();
   }
 
-  Future<void> signInVerifyOTP(
+  Future<void> verifyOTP(
       {required String verifyURL, required String otp}) async {
     isLoading = true;
     error = null;
-    otpMessage = null;
     notifyListeners();
-    if (otpMessage != null && otpMessage!.tempKey != null) return;
+    if (otpMessage == null || otpMessage!.tempKey == null) {
+      isLoading =false;
+      notifyListeners();
+      error = 'حدث خطأ غير معروف';
+      return;
+    }
     UserResponse userResponse = await authRepository.verifyOTP(
         verifyURL: verifyURL, tempKey: otpMessage!.tempKey!, otp: otp);
     if (userResponse.error != null) {
@@ -114,6 +120,9 @@ class AuthProvider extends SoicalUserProvider {
       return;
     } else {
       currentUser = userResponse.user;
+      userResponse.user!.saveToSharedPreferences();
+      error = null;
+      otpMessage = null;
       isLoading = false;
       notifyListeners();
     }

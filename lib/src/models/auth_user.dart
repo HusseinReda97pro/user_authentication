@@ -110,8 +110,9 @@ class AuthUser {
   }
 
   static AuthUser fromMap(Map<String, dynamic> data) {
+
     return AuthUser(
-        id: data['id'],
+        id: data['id'].toString(),
         name: data['name'],
         email: data['email'],
         soicalId: data['soical_id'],
@@ -119,11 +120,11 @@ class AuthUser {
         imageURL: data['image_url'],
         provider: UserProvider.emailPassword,
         emailVerifiedAt: data['email_verified_at'],
-        createdAt: data['created_at'],
-        updatedAt: data['updated_at']);
+        createdAt: data['created_at'] == null? null : DateTime.parse(data['created_at']),
+        updatedAt: data['updated_at']== null? null : DateTime.parse(data['updated_at']),);
   }
 
-  // factory User.fromFacebook(data) => FacebookUser.fromMap(data);
-  // factory User.fromGoogle(googleSignInAccount) =>
-  //     GoogleUser.fromMap(googleSignInAccount);
+// factory User.fromFacebook(data) => FacebookUser.fromMap(data);
+// factory User.fromGoogle(googleSignInAccount) =>
+//     GoogleUser.fromMap(googleSignInAccount);
 }

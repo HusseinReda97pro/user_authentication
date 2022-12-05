@@ -1,9 +1,9 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:auth/models/custom_response.dart';
+import 'package:auth/network_services/status_codes.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:user_authentication/src/models/custom_response.dart';
-import 'package:user_authentication/src/network_services/status_codes.dart';
 
 class NetworkServices {
   bool debugging = true;
@@ -43,8 +43,6 @@ class NetworkServices {
 
   void _setJsonHeader() {
     headers.putIfAbsent('Accept', () => 'application/json charset=utf-8');
-    headers.putIfAbsent(
-        'Content-Type', () => "application/x-www-form-urlencoded");
   }
 
   Future<CustomResponse<dynamic>> get(
@@ -96,11 +94,16 @@ class NetworkServices {
       // ignore: prefer_typing_uninitialized_variables
       var data;
       String? errorMessage, successMessage;
-      if (response.statusCode == StatusCode.success ||
-          response.statusCode == StatusCode.created) {
-        data = response.data;
+      print(response.data);
+      if (response.data['error'] != null) {
+        errorMessage = response.data['error'];
       } else {
-        errorMessage = response.data['message'];
+        if (response.statusCode == StatusCode.success ||
+            response.statusCode == StatusCode.created) {
+          data = response.data;
+        } else {
+          errorMessage = response.data['message'];
+        }
       }
       // successMessage = response.data['success_message'] ?? null;
       return CustomResponse(
@@ -110,9 +113,10 @@ class NetworkServices {
         successMessage: successMessage,
       );
     } catch (e) {
+      print(e);
       return CustomResponse(
         statusCode: response?.statusCode,
-        errorMessage: "Something Went Wrong",
+        errorMessage: "something went wrong",
       );
     }
   }
