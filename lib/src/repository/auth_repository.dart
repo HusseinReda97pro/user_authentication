@@ -5,7 +5,7 @@ import 'package:user_authentication/src/models/otp_message.dart';
 import 'package:user_authentication/src/models/user_response.dart';
 import 'package:user_authentication/src/network_services/networking_services.dart';
 import 'package:user_authentication/src/network_services/status_codes.dart';
-
+import 'package:logger/logger.dart';
 import '../models/custom_response.dart';
 
 class AuthRepository extends SoicalUserRepository {
@@ -47,7 +47,8 @@ class AuthRepository extends SoicalUserRepository {
         customResponse.data != null) {
       return OTPMessage.fromMap(customResponse.data);
     } else {
-      print(customResponse.data);
+      Logger().i("customResponse.data", customResponse.data);
+
       return OTPMessage(message: 'حدث خطأ غير معروف', errors: {});
     }
   }
