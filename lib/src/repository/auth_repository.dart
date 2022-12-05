@@ -35,7 +35,7 @@ class AuthRepository extends SoicalUserRepository {
         "email": ["حقل البريد الالكتروني مطلوب."]
       });
     }
-    if (Validation.validateEmaile(email: email)) {
+    if (!Validation.validateEmaile(email: email)) {
       return OTPMessage(message: 'حقل البريد الالكتروني غير صالح.', errors: {
         "email": ["حقل البريد الالكتروني غير صالح."]
       });
