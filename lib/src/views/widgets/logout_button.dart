@@ -1,5 +1,5 @@
-import 'package:auth/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:user_authentication/src/provider/auth_provider.dart';
 
 class LogoutButton extends StatefulWidget {
   final void Function()? onPressed;

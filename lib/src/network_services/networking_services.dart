@@ -1,9 +1,9 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'package:auth/models/custom_response.dart';
-import 'package:auth/network_services/status_codes.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:user_authentication/src/models/custom_response.dart';
+import 'package:user_authentication/src/network_services/status_codes.dart';
 
 class NetworkServices {
   bool debugging = true;

@@ -1,10 +1,8 @@
-import 'package:auth/models/auth_user.dart';
-import 'package:auth/models/otp_message.dart';
-import 'package:auth/models/user_response.dart';
-import 'package:auth/repository/auth_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:soical_user_authentication/soical_user_authentication.dart';
+import 'package:user_authentication/src/models/otp_message.dart';
+import 'package:user_authentication/user_authentication.dart';
 
 class AuthProvider extends SoicalUserProvider {
   AuthUser? currentUser;
@@ -106,7 +104,7 @@ class AuthProvider extends SoicalUserProvider {
     error = null;
     notifyListeners();
     if (otpMessage == null || otpMessage!.tempKey == null) {
-      isLoading =false;
+      isLoading = false;
       notifyListeners();
       error = 'حدث خطأ غير معروف';
       return;

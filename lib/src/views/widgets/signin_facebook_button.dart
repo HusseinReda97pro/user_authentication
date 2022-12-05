@@ -1,6 +1,6 @@
-import 'package:auth/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:user_authentication/src/provider/auth_provider.dart';
 
 class SigninFacebookButton extends StatefulWidget {
   final String? text;

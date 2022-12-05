@@ -1,9 +1,9 @@
-import 'package:auth/models/auth_user.dart';
-import 'package:auth/models/otp_message.dart';
-import 'package:auth/models/user_response.dart';
-import 'package:auth/network_services/networking_services.dart';
-import 'package:auth/network_services/status_codes.dart';
 import 'package:soical_user_authentication/soical_user_authentication.dart';
+import 'package:user_authentication/src/models/auth_user.dart';
+import 'package:user_authentication/src/models/otp_message.dart';
+import 'package:user_authentication/src/models/user_response.dart';
+import 'package:user_authentication/src/network_services/networking_services.dart';
+import 'package:user_authentication/src/network_services/status_codes.dart';
 
 import '../helper/validation.dart';
 import '../models/custom_response.dart';
@@ -68,15 +68,14 @@ class AuthRepository extends SoicalUserRepository {
     if ((customResponse.statusCode == StatusCode.success ||
             customResponse.statusCode == StatusCode.created) &&
         customResponse.data != null) {
-      try{
+      try {
         customResponse.data['member']['token'] = customResponse.data['token'];
         userResponse.user = AuthUser.fromMap(customResponse.data['member']);
-      }catch(e,s){
+      } catch (e, s) {
         print(e);
         print(s);
         userResponse.error = 'حدث خطأ غير معروف';
       }
-
     } else {
       userResponse.error = customResponse.errorMessage;
     }

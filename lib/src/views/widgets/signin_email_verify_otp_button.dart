@@ -1,5 +1,5 @@
-import 'package:auth/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:user_authentication/src/provider/auth_provider.dart';
 
 class VerifyOTPButton extends StatefulWidget {
   final void Function()? onPressed;
@@ -25,7 +25,8 @@ class _VerifyOTPButtonState extends State<VerifyOTPButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: widget.style,
-      onPressed: widget.onPressed ?? (AuthProvider.of(context).otpMessage != null &&
+      onPressed: widget.onPressed ??
+          (AuthProvider.of(context).otpMessage != null &&
                   AuthProvider.of(context).otpMessage!.tempKey != null
               ? () async {
                   AuthProvider.of(context).setError(null);
