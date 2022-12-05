@@ -4,12 +4,12 @@ import 'package:user_authentication/src/provider/auth_provider.dart';
 class SignInEmailWithOTPButton extends StatefulWidget {
   final void Function()? onPressed;
   final Widget text;
-  final String email;
+  final TextEditingController emailController;
   final String signinURL;
   final ButtonStyle style;
   const SignInEmailWithOTPButton(
       {required this.signinURL,
-      required this.email,
+      required this.emailController,
       this.onPressed,
       required this.text,
       required this.style,
@@ -31,7 +31,7 @@ class _SignInEmailWithOTPButtonState extends State<SignInEmailWithOTPButton> {
             AuthProvider.of(context).setError(null);
             await AuthProvider.of(context).signInWithEmailAndOTP(
               signinURL: widget.signinURL,
-              email: widget.email,
+              email: widget.emailController.text,
             );
           },
       child: widget.text,
