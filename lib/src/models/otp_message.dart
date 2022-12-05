@@ -1,7 +1,7 @@
 class OTPMessage {
   final String message;
   final String? tempKey;
-  final List<Map>? errors;
+  final Map<String, dynamic>? errors;
   OTPMessage({required this.message, this.tempKey, this.errors});
 
   factory OTPMessage.fromMap(data) => OTPMessage(

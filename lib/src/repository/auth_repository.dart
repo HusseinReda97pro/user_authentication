@@ -1,4 +1,5 @@
 import 'package:soical_user_authentication/soical_user_authentication.dart';
+import 'package:user_authentication/src/helper/validation.dart';
 import 'package:user_authentication/src/models/auth_user.dart';
 import 'package:user_authentication/src/models/otp_message.dart';
 import 'package:user_authentication/src/models/user_response.dart';
@@ -29,6 +30,16 @@ class AuthRepository extends SoicalUserRepository {
 
   Future<OTPMessage> signInUsingEmailAndOTP(
       {required String signinURL, required String email}) async {
+    if (email.isEmpty) {
+      return OTPMessage(message: 'حقل البريد الالكتروني مطلوب.', errors: {
+        "email": ["حقل البريد الالكتروني مطلوب."]
+      });
+    }
+    if (Validation.validateEmaile(email: email)) {
+      return OTPMessage(message: 'حقل البريد الالكتروني غير صالح.', errors: {
+        "email": ["حقل البريد الالكتروني غير صالح."]
+      });
+    }
     CustomResponse customResponse = await NetworkServices.instance
         .post(url: signinURL, body: {"email": email});
     if ((customResponse.statusCode == StatusCode.success ||
@@ -36,9 +47,8 @@ class AuthRepository extends SoicalUserRepository {
         customResponse.data != null) {
       return OTPMessage.fromMap(customResponse.data);
     } else {
-      return OTPMessage(
-        message: 'حدث خطأ غير معروف',
-      );
+      print(customResponse.data);
+      return OTPMessage(message: 'حدث خطأ غير معروف', errors: {});
     }
   }
 

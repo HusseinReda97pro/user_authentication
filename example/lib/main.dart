@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:user_authentication/provider/auth_provider.dart';
-import 'package:user_authentication/repository/auth_repository.dart';
-import 'package:user_authentication/views/widgets/logout_button.dart';
-import 'package:user_authentication/views/widgets/signin_email_button.dart';
-import 'package:user_authentication/views/widgets/signin_facebook_button.dart';
-import 'package:user_authentication/views/widgets/signin_google_button.dart';
+import 'package:user_authentication/user_authentication.dart';
 
 void main() {
   runApp(const MyApp());
@@ -124,15 +119,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       : "password must be at least 8 characters and should contain at least one upper case, lower case, digit and special character.";
                 },
               ),
-              SignInEmailButton(
-                signinURL: 'https://6360f3d6af66cc87dc1ec1d9.mockapi.io/error',
-                // onPressed: () {
-                //   print('onPressed');
-                // },
-                text: 'email error',
-                email: emailController.text,
-                password: passwordController.text,
-              ),
+              // SignInEmailButton(
+              //   signinURL: 'https://6360f3d6af66cc87dc1ec1d9.mockapi.io/error',
+              //   // onPressed: () {
+              //   //   print('onPressed');
+              //   // },
+              //   text: 'email error',
+              //   email: emailController.text,
+              //   password: passwordController.text,
+              // ),
               const LogoutButton(),
             ],
           );

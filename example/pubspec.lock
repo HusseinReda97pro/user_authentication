@@ -455,7 +455,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4aef3c6cc2d60b3d05d392e1a4a5a52909de5f81"
+      resolved-ref: "2d71cb26a71c3607394903af24c3d667b7ec7c41"
       url: "https://github.com/HusseinReda97pro/user_authentication"
     source: git
     version: "0.0.1"

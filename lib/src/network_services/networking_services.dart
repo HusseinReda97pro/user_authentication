@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:user_authentication/src/models/custom_response.dart';
 import 'package:user_authentication/src/network_services/status_codes.dart';
 
@@ -12,19 +13,19 @@ class NetworkServices {
   NetworkServices._privateConstructor() {
     _dio = Dio(baseOptions);
 // customization
-    // if (debugging) {
-    //   _dio.interceptors.add(
-    //     PrettyDioLogger(
-    //       requestHeader: true,
-    //       requestBody: true,
-    //       responseBody: true,
-    //       responseHeader: false,
-    //       error: true,
-    //       compact: true,
-    //       maxWidth: 90,
-    //     ),
-    //   );
-    // }
+    if (debugging) {
+      _dio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: false,
+          error: true,
+          compact: true,
+          maxWidth: 90,
+        ),
+      );
+    }
   }
 
   late Dio _dio;
