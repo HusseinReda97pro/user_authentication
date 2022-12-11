@@ -7,12 +7,14 @@ class SignInEmailWithOTPButton extends StatefulWidget {
   final TextEditingController emailController;
   final String signinURL;
   final ButtonStyle style;
+  final Function onSuccess;
   const SignInEmailWithOTPButton(
       {required this.signinURL,
       required this.emailController,
       this.onPressed,
       required this.text,
       required this.style,
+      required this.onSuccess,
       Key? key})
       : super(key: key);
 
@@ -33,6 +35,11 @@ class _SignInEmailWithOTPButtonState extends State<SignInEmailWithOTPButton> {
               signinURL: widget.signinURL,
               email: widget.emailController.text,
             );
+            if (!mounted) return;
+            if (AuthProvider.of(context).error != null &&
+                AuthProvider.of(context).otpMessage != null) {
+              widget.onSuccess();
+            }
           },
       child: widget.text,
     );
