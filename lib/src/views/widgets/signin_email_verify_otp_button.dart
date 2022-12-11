@@ -8,6 +8,7 @@ class VerifyOTPButton extends StatefulWidget {
   final String verifyURL;
   final ButtonStyle style;
   final Function onSuccess;
+  final bool disabled;
 
   const VerifyOTPButton(
       {required this.verifyURL,
@@ -16,6 +17,7 @@ class VerifyOTPButton extends StatefulWidget {
       required this.text,
       required this.style,
       required this.onSuccess,
+      this.disabled = false,
       Key? key})
       : super(key: key);
 
@@ -28,23 +30,26 @@ class _VerifyOTPButtonState extends State<VerifyOTPButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: widget.style,
-      onPressed: widget.onPressed ??
-          (AuthProvider.of(context).otpMessage != null &&
-                  AuthProvider.of(context).otpMessage!.tempKey != null
-              ? () async {
-                  AuthProvider.of(context).setError(null);
-                  await AuthProvider.of(context).verifyOTP(
-                    verifyURL: widget.verifyURL,
-                    otp: widget.otpController.text,
-                  );
-                  if (!mounted) return;
-                  if (AuthProvider.of(context).error == null &&
-                      AuthProvider.of(context).otpMessage != null &&
-                      AuthProvider.of(context).otpMessage!.tempKey != null) {
-                    widget.onSuccess();
-                  }
-                }
-              : null),
+      onPressed: widget.disabled
+          ? null
+          : widget.onPressed ??
+              (AuthProvider.of(context).otpMessage != null &&
+                      AuthProvider.of(context).otpMessage!.tempKey != null
+                  ? () async {
+                      AuthProvider.of(context).setError(null);
+                      await AuthProvider.of(context).verifyOTP(
+                        verifyURL: widget.verifyURL,
+                        otp: widget.otpController.text,
+                      );
+                      if (!mounted) return;
+                      if (AuthProvider.of(context).error == null &&
+                          AuthProvider.of(context).otpMessage != null &&
+                          AuthProvider.of(context).otpMessage!.tempKey !=
+                              null) {
+                        widget.onSuccess();
+                      }
+                    }
+                  : null),
       child: widget.text,
     );
   }
