@@ -42,10 +42,7 @@ class _VerifyOTPButtonState extends State<VerifyOTPButton> {
                         otp: widget.otpController.text,
                       );
                       if (!mounted) return;
-                      if (AuthProvider.of(context).error == null &&
-                          AuthProvider.of(context).otpMessage != null &&
-                          AuthProvider.of(context).otpMessage!.tempKey !=
-                              null) {
+                      if (AuthProvider.of(context).isUserLoggedin()) {
                         widget.onSuccess();
                       }
                     }
