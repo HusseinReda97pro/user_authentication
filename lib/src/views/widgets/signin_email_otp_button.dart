@@ -36,6 +36,11 @@ class _SignInEmailWithOTPButtonState extends State<SignInEmailWithOTPButton> {
               email: widget.emailController.text,
             );
             if (!mounted) return;
+            print('AuthProvider.of(context).error != null');
+            print(AuthProvider.of(context).error != null);
+            print('AuthProvider.of(context).otpMessage != null');
+            print(AuthProvider.of(context).otpMessage != null);
+
             if (AuthProvider.of(context).error != null &&
                 AuthProvider.of(context).otpMessage != null) {
               widget.onSuccess();
