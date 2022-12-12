@@ -70,6 +70,14 @@ class AuthUser {
     if (imageURL != null) {
       pref.setString('image_url', imageURL!);
     }
+
+    if (createdAt != null) {
+      pref.setString('created_at', createdAt!.toString());
+    }
+
+    if (updatedAt != null) {
+      pref.setString('updated_at', updatedAt!.toString());
+    }
   }
 
   static Future<AuthUser?> getFromSharedPreferences() async {
@@ -82,17 +90,21 @@ class AuthUser {
     String? soicalId = pref.getString('soical_id');
     String? token = pref.getString('token');
     String? provider = pref.getString('provider');
+    String? createdAt = pref.getString('created_at');
+    String? updatedAt = pref.getString('updated_at');
+
     try {
       if (id != null && email != null && name != null && provider != null) {
         user = AuthUser(
-          id: id,
-          name: name,
-          email: email,
-          imageURL: imageURL,
-          token: token,
-          soicalId: soicalId,
-          provider: provider.toUserProvider(),
-        );
+            id: id,
+            name: name,
+            email: email,
+            imageURL: imageURL,
+            token: token,
+            soicalId: soicalId,
+            provider: provider.toUserProvider(),
+            createdAt: createdAt != null ? DateTime.parse(createdAt) : null,
+            updatedAt: updatedAt != null ? DateTime.parse(updatedAt) : null);
       }
     } catch (_) {}
     return user;
