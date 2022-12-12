@@ -10,7 +10,7 @@ class AuthUser {
   UserProvider provider;
   String? soicalId;
   String? imageURL;
-  String? jsonWebToken;
+  String? token;
   DateTime? emailVerifiedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -22,7 +22,7 @@ class AuthUser {
     required this.provider,
     this.soicalId,
     this.imageURL,
-    this.jsonWebToken,
+    this.token,
     this.emailVerifiedAt,
     this.createdAt,
     this.updatedAt,
@@ -32,7 +32,7 @@ class AuthUser {
 
   @override
   String toString() {
-    return 'id:$id, username: $name, email: $email, soicalId :$soicalId, token: $jsonWebToken, ImageUrl: $imageURL';
+    return 'id:$id, username: $name, email: $email, soicalId :$soicalId, token: $token, ImageUrl: $imageURL';
   }
 
   Map<String, dynamic> get toMap {
@@ -41,7 +41,7 @@ class AuthUser {
       "name": name,
       "email": email,
       "soical_id": soicalId,
-      "token": jsonWebToken,
+      "token": token,
       "image_url": imageURL,
       "provider": provider,
       "email_verified_at": emailVerifiedAt,
@@ -59,8 +59,8 @@ class AuthUser {
     // if (id != null) {
     pref.setString('id', id);
     // }
-    if (jsonWebToken != null) {
-      pref.setString('jwt', jsonWebToken!);
+    if (token != null) {
+      pref.setString('token', token!);
     }
     if (soicalId != null) {
       pref.setString('soical_id', soicalId!);
@@ -80,7 +80,7 @@ class AuthUser {
     String? email = pref.getString('email');
     String? imageURL = pref.getString('image_url');
     String? soicalId = pref.getString('soical_id');
-    String? jsonWebToken = pref.getString('token');
+    String? token = pref.getString('token');
     String? provider = pref.getString('provider');
     try {
       if (id != null && email != null && name != null && provider != null) {
@@ -89,7 +89,7 @@ class AuthUser {
           name: name,
           email: email,
           imageURL: imageURL,
-          jsonWebToken: jsonWebToken,
+          token: token,
           soicalId: soicalId,
           provider: provider.toUserProvider(),
         );
@@ -110,18 +110,22 @@ class AuthUser {
   }
 
   static AuthUser fromMap(Map<String, dynamic> data) {
-
     return AuthUser(
-        id: data['id'].toString(),
-        name: data['name'],
-        email: data['email'],
-        soicalId: data['soical_id'],
-        jsonWebToken: data['token'],
-        imageURL: data['image_url'],
-        provider: UserProvider.emailPassword,
-        emailVerifiedAt: data['email_verified_at'],
-        createdAt: data['created_at'] == null? null : DateTime.parse(data['created_at']),
-        updatedAt: data['updated_at']== null? null : DateTime.parse(data['updated_at']),);
+      id: data['id'].toString(),
+      name: data['name'],
+      email: data['email'],
+      soicalId: data['soical_id'],
+      token: data['token'],
+      imageURL: data['image_url'],
+      provider: UserProvider.emailPassword,
+      emailVerifiedAt: data['email_verified_at'],
+      createdAt: data['created_at'] == null
+          ? null
+          : DateTime.parse(data['created_at']),
+      updatedAt: data['updated_at'] == null
+          ? null
+          : DateTime.parse(data['updated_at']),
+    );
   }
 
 // factory User.fromFacebook(data) => FacebookUser.fromMap(data);
