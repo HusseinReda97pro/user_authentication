@@ -31,13 +31,13 @@ class AuthRepository extends SoicalUserRepository {
   Future<OTPMessage> signInUsingEmailAndOTP(
       {required String signinURL, required String email}) async {
     if (email.isEmpty) {
-      return OTPMessage(message: 'حقل البريد الالكتروني مطلوب.', errors: {
-        "email": ["حقل البريد الالكتروني مطلوب."]
+      return OTPMessage(message: 'حقل البريد الالكتروني مطلوب', errors: {
+        "email": ["حقل البريد الالكتروني مطلوب"]
       });
     }
     if (!Validation.validateEmaile(email: email)) {
-      return OTPMessage(message: 'حقل البريد الالكتروني غير صالح.', errors: {
-        "email": ["حقل البريد الالكتروني غير صالح."]
+      return OTPMessage(message: 'حقل البريد الالكتروني غير صالح', errors: {
+        "email": ["حقل البريد الالكتروني غير صالح"]
       });
     }
     CustomResponse customResponse = await NetworkServices.instance
