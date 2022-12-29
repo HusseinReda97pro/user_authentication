@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:soical_user_authentication/soical_user_authentication.dart';
+import 'package:user_authentication/src/models/user_provider_enum.dart';
 
 class AuthUser {
   String id;

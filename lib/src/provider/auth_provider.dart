@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:soical_user_authentication/soical_user_authentication.dart';
 import 'package:user_authentication/src/models/otp_message.dart';
 import 'package:user_authentication/user_authentication.dart';
 
-class AuthProvider extends SoicalUserProvider {
+class AuthProvider extends ChangeNotifier {
+  String? error;
+  bool isLoading = false;
   AuthUser? currentUser;
   AuthRepository authRepository;
   OTPMessage? otpMessage;
@@ -15,42 +16,7 @@ class AuthProvider extends SoicalUserProvider {
     notifyListeners();
   }
 
-  AuthProvider({required this.authRepository})
-      : super(soicalUserRepository: SoicalUserRepository());
-
-  @override
-  Future<bool> signInWithGoogle() async {
-    bool signedIn = await super.signInWithGoogle();
-    if (signedIn && super.currentSoicalUser != null) {
-      currentUser = AuthUser(
-        id: super.currentSoicalUser!.id,
-        name: super.currentSoicalUser!.name,
-        email: super.currentSoicalUser!.email,
-        provider: super.currentSoicalUser!.provider,
-        soicalId: super.currentSoicalUser!.id,
-        imageURL: super.currentSoicalUser!.imageURL,
-      );
-      currentUser!.saveToSharedPreferences();
-    }
-    return signedIn;
-  }
-
-  @override
-  Future<bool> signInWithFacebook() async {
-    bool signedIn = await super.signInWithFacebook();
-    if (signedIn && super.currentSoicalUser != null) {
-      currentUser = AuthUser(
-        id: super.currentSoicalUser!.id,
-        name: super.currentSoicalUser!.name,
-        email: super.currentSoicalUser!.email,
-        provider: super.currentSoicalUser!.provider,
-        soicalId: super.currentSoicalUser!.id,
-        imageURL: super.currentSoicalUser!.imageURL,
-      );
-      currentUser!.saveToSharedPreferences();
-    }
-    return signedIn;
-  }
+  AuthProvider({required this.authRepository});
 
   Future<bool> signInWithEmailAndPassword(
       {required String signinURL,
@@ -140,14 +106,6 @@ class AuthProvider extends SoicalUserProvider {
     error = null;
     notifyListeners();
     try {
-      if (currentUser != null &&
-          currentUser!.provider == UserProvider.facebook) {
-        await soicalUserRepository.logoutFromFacebook();
-      }
-      if (currentUser != null && currentUser!.provider == UserProvider.google) {
-        await soicalUserRepository.logoutFromGoogle();
-      }
-      currentSoicalUser = null;
       currentUser = null;
       authRepository.logout();
       isLoading = false;
