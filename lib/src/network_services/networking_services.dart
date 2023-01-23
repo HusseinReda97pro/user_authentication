@@ -1,19 +1,20 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:user_authentication/src/interceptor_logs.dart';
 import 'package:user_authentication/src/models/custom_response.dart';
 import 'package:user_authentication/src/network_services/status_codes.dart';
 
 class NetworkServices {
-  bool debugging = true;
   Map<String, String> headers = HashMap();
   static final NetworkServices _instance =
       NetworkServices._privateConstructor();
   NetworkServices._privateConstructor() {
     _dio = Dio(baseOptions);
 // customization
-    if (debugging) {
+    if (kDebugMode) {
       _dio.interceptors.add(
         PrettyDioLogger(
           requestHeader: true,
@@ -25,6 +26,7 @@ class NetworkServices {
           maxWidth: 90,
         ),
       );
+      _dio.interceptors.add(InterceptorLogs());
     }
   }
 

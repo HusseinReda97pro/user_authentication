@@ -21,6 +21,8 @@ dependencies:
   #     url: https://github.com/HusseinReda97pro/soical_user_authentication
   pretty_dio_logger: ^1.2.0-beta-1
   logger: ^1.1.0
+  flutter_logger: ^0.0.6
+  flutter_bug_logger: ^1.0.0
 
 
 dev_dependencies:
