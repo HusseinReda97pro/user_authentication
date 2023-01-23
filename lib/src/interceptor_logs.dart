@@ -12,10 +12,10 @@ class InterceptorLogs extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    logger.d(
+    xlogger.d(
       'RESPONSE Status[${response.requestOptions}] => PATH: ${response.requestOptions.extra}',
     );
-    logger.d(
+    xlogger.d(
       'RESPONSE Object[${response.data}] => PATH: ${response.requestOptions.path}',
     );
     Logger.json('${response}');
@@ -25,7 +25,7 @@ class InterceptorLogs extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    logger.d(
+    xlogger.d(
       'ERROR[${err.response?.statusMessage}] => PATH: ${err.requestOptions.data}',
     );
     Logger.e('${err.response?.data}');
@@ -35,7 +35,7 @@ class InterceptorLogs extends Interceptor {
     // }
     // if (err.response?.data != null) showToast("${err.response?.data}", false);
 
-    logger.d(
+    xlogger.d(
       'ERROR object[${err.response?.data}] => PATH: ${err.requestOptions.path}',
     );
 
